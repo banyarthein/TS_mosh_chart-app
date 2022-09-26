@@ -4,13 +4,13 @@ function Chart(props) {
   const [temp, setTemp] = useState([,]);
 
   async function getData() {
-    //const dataFileURL = "https://jsonplaceholder.typicode.com/users";
-    const dataFileURL = "./data/Zone-data.csv";
+    const dataFileURL = "http://react.localhost.com:8000/charts";
+    //const dataFileURL = "./data/Zone-data.csv";
     //const dataFileURL = "testdata.csv";
     const result = await fetch(dataFileURL);
-    //console.log("result : ", result);
+    //console.log("result is : ", result);
     const data = await result.text();
-    //console.log("data : ", data);
+    //console.log("data is : ", data);
     const rows = data.split("\n").slice(1);
     //console.log("rows : ", rows);
 
