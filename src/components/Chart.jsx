@@ -1,35 +1,34 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import { getDataByAxio, getDataByFetch } from "../DTOs/dataaccess";
+
+
 
 function Chart(props) {
   const [header, setHeader] = useState([]);
   const [rows, setRows] = useState([]);
 
-  async function getData() {
-    const dataFileURL = "http://react.localhost.com:8000/charts";
+  const getData = async (dataFileURL) => {
     //const dataFileURL = "./data/Zone-data.csv";
-    const result = await axios.get(dataFileURL);
-    //console.log("result is : ", result);
-    const { data } = await result;
+    const data = await getDataByAxio(dataFileURL);
+    //const data = await getDataByFetch(dataFileURL);
     const raw = data.split("\n");
 
     //setting Header
     setHeader(raw[0].split(","));
-    // console.log("Header: ", header);
+    console.log("Header: ", header);
     //setting Rows
     setRows(raw.slice(1));
     // console.log("rows", rows);
   }
 
   useEffect(() => {
-    getData();
+    getData("http://react.localhost.com:8000/charts");
   }, []);
 
   // rows.forEach((row) => {
   //   const cols = row.split(",").slice(0, 2);
   //   arrData.push(col);
   // })
-  console.clear();
   return (
     <div>
       <h1 className="my-4">Temperatures by years</h1>
