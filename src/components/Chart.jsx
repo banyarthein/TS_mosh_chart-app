@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { getDataByAxio, getDataByFetch } from "../DTOs/dataaccess";
+import {Radio} from "antd"
+
 
 
 
 function Chart(props) {
   const [header, setHeader] = useState([]);
   const [rows, setRows] = useState([]);
+  const [value, setValue] = useState('D');
+  const [tableClass, setTableClass] = useState('table table-striped table-hover table-dark');
 
   const getData = async (dataFileURL) => {
     //const dataFileURL = "./data/Zone-data.csv";
@@ -25,6 +29,21 @@ function Chart(props) {
     getData("http://react.localhost.com:8000/charts");
   }, []);
 
+  const onChange = (e) => {
+    console.log("radio checked", e.target.value);
+    setValue(e.target.value);
+    if(e.target.value == 'D')
+    {
+      setTableClass('table table-striped table-hover table-dark');
+    }
+    else
+    {
+      setTableClass('table table-striped table-hover');
+    }
+    // table-dark
+  };
+
+
   // rows.forEach((row) => {
   //   const cols = row.split(",").slice(0, 2);
   //   arrData.push(col);
@@ -32,7 +51,14 @@ function Chart(props) {
   return (
     <div>
       <h1 className="my-4">Temperatures by years</h1>
-      <table className="table table-striped table-dark table-hover">
+
+      <div className="my-4">
+      <Radio.Group onChange={onChange} value={value}>
+        <Radio value={'D'} >Dark</Radio>
+        <Radio value={'L'}>Light</Radio>
+      </Radio.Group>
+      </div>
+      <table className={tableClass}>
         <thead>
           <tr>
             {header.map((col) => (
